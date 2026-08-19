@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
+    >
+
+    <meta name="theme-color" content="#111111">
+
+    <title>Rosha Support</title>
+
+    <style>
+        /* =========================================================
+           RESET
+        ========================================================= */
+
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        body {
+            font-family:
+                Tahoma,
+                Arial,
+                "Segoe UI",
+                sans-serif;
+
+            background: #111;
+            color: #fff;
+
+            overscroll-behavior: none;
+            touch-action: manipulation;
+        }
+
+
+        /* =========================================================
+           MAIN PAGE
+        ========================================================= */
+
+        .page {
+            position: relative;
+
+            width: 100%;
+            height: 100vh;
+            height: 100svh;
+            height: 100dvh;
+
+            overflow: hidden;
+
+            isolation: isolate;
+
+            background-image:
+                linear-gradient(
+                    rgba(0, 0, 0, 0.05),
+                    rgba(0, 0, 0, 0.05)
+                ),
+                url("./background.png");
+
+            background-size: cover;
+            background-position: center center;
+            background-repeat: no-repeat;
+        }
+
+
+        /* =========================================================
+           VERY SUBTLE READABILITY OVERLAY
+        ========================================================= */
+
+        .page::after {
+            content: "";
+
+            position: absolute;
+            inset: 0;
+
+            z-index: -1;
+
+            pointer-events: none;
+
+            background:
+                linear-gradient(
+                    to bottom,
+                    rgba(0, 0, 0, 0.08) 0%,
+                    rgba(0, 0, 0, 0) 28%,
+                    rgba(0, 0, 0, 0.04) 100%
+                );
+        }
+
+
+        /* =========================================================
+           BRAND
+        ========================================================= */
+
+        .brand {
+            position: absolute;
+
+            top: max(18px, env(safe-area-inset-top));
+            left: 50%;
+
+            transform: translateX(-50%);
+
+            z-index: 10;
+
+            color: #151515;
+
+            font-size: clamp(18px, 5vw, 27px);
+            font-weight: 800;
+
+            letter-spacing: 0.2px;
+
+            white-space: nowrap;
+
+            text-shadow:
+                0 1px 1px rgba(255,255,255,0.55),
+                0 2px 4px rgba(0,0,0,0.12);
+        }
+
+
+        /* =========================================================
+           MAIN INSTRUCTION
+        ========================================================= */
+
+        .instruction {
+            position: absolute;
+
+            top: clamp(10%, 13vh, 17%);
+
+            left: 50%;
+
+            transform: translateX(-50%);
+
+            width: min(90%, 600px);
+
+            z-index: 10;
+
+            text-align: center;
+
+            color: #151515;
+
+            font-size: clamp(18px, 5.3vw, 29px);
+
+            font-weight: 700;
+
+            line-height: 1.55;
+
+            white-space: nowrap;
+
+            text-shadow:
+                0 1px 1px rgba(255,255,255,0.75),
+                0 2px 5px rgba(0,0,0,0.12);
+        }
+
+
+        /* =========================================================
+           CONTACT AREA
+           The cards are intentionally positioned ABOVE the
+           existing "برخط" and "آنلاین" labels in the image.
+        ========================================================= */
+
+        .contact-area {
+            position: absolute;
+
+            /*
+             * Main vertical position.
+             * This is deliberately above the labels printed
+             * on the doors in background.png.
+             */
+            top: 31.5%;
+
+            left: 0;
+
+            width: 100%;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: flex-start;
+
+            direction: ltr;
+
+            padding-left: 8.5%;
+            padding-right: 8.5%;
+
+            z-index: 20;
+
+            pointer-events: none;
+        }
+
+
+        /* =========================================================
+           CONTACT CARD
+        ========================================================= */
+
+        .contact-card {
+            position: relative;
+
+            /*
+             * Width follows the proportions of the two doors.
+             * It remains large enough to read easily on mobile.
+             */
+            width: 39vw;
+            max-width: 190px;
+            min-width: 135px;
+
+            height: clamp(68px, 17vw, 88px);
+
+            display: flex;
+
+            flex-direction: column;
+
+            justify-content: center;
+            align-items: center;
+
+            gap: 3px;
+
+            border-radius: 17px;
+
+            text-decoration: none;
+
+            overflow: hidden;
+
+            cursor: pointer;
+
+            pointer-events: auto;
+
+            user-select: none;
+            -webkit-user-select: none;
+
+            transform: translateY(0);
+
+            transition:
+                transform 90ms ease,
+                box-shadow 90ms ease,
+                filter 90ms ease;
+
+            /*
+             * Prevent browser image/link dragging.
+             */
+            -webkit-user-drag: none;
+        }
+
+
+        /* =========================================================
+           INTERNAL LIGHT / GLASS HIGHLIGHT
+        ========================================================= */
+
+        .contact-card::before {
+            content: "";
+
+            position: absolute;
+
+            inset: 1px;
+
+            border-radius: 16px;
+
+            pointer-events: none;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(255,255,255,0.42),
+                    rgba(255,255,255,0.08) 35%,
+                    rgba(0,0,0,0.08) 100%
+                );
+
+            opacity: 0.72;
+        }
+
+
+        .contact-card::after {
+            content: "";
+
+            position: absolute;
+
+            top: 0;
+            left: 8%;
+            right: 8%;
+
+            height: 2px;
+
+            border-radius: 50%;
+
+            background: rgba(255,255,255,0.7);
+
+            opacity: 0.8;
+        }
+
+
+        /* =========================================================
+           WHATSAPP
+        ========================================================= */
+
+        .whatsapp {
+            background:
+                linear-gradient(
+                    145deg,
+                    #34e47b 0%,
+                    #25D366 45%,
+                    #16a955 100%
+                );
+
+            border: 1px solid rgba(255,255,255,0.62);
+
+            box-shadow:
+                0 12px 24px rgba(0,0,0,0.32),
+                0 6px 10px rgba(0,0,0,0.22),
+                inset 0 2px 2px rgba(255,255,255,0.5),
+                inset 0 -5px 8px rgba(0,0,0,0.18);
+        }
+
+
+        /* =========================================================
+           EITAA
+        ========================================================= */
+
+        .eitaa {
+            background:
+                linear-gradient(
+                    145deg,
+                    #ffad45 0%,
+                    #F58220 45%,
+                    #dc6810 100%
+                );
+
+            border: 1px solid rgba(255,255,255,0.62);
+
+            box-shadow:
+                0 12px 24px rgba(0,0,0,0.32),
+                0 6px 10px rgba(0,0,0,0.22),
+                inset 0 2px 2px rgba(255,255,255,0.5),
+                inset 0 -5px 8px rgba(0,0,0,0.18);
+        }
+
+
+        /* =========================================================
+           CARD TEXT
+        ========================================================= */
+
+        .service-name {
+            position: relative;
+
+            z-index: 2;
+
+            color: #fff;
+
+            font-size: clamp(20px, 5.7vw, 29px);
+
+            font-weight: 900;
+
+            line-height: 1.05;
+
+            text-shadow:
+                0 2px 2px rgba(0,0,0,0.3),
+                0 3px 5px rgba(0,0,0,0.22);
+        }
+
+
+        .service-action {
+            position: relative;
+
+            z-index: 2;
+
+            color: rgba(255,255,255,0.98);
+
+            font-size: clamp(13px, 3.7vw, 18px);
+
+            font-weight: 700;
+
+            line-height: 1.1;
+
+            text-shadow:
+                0 1px 2px rgba(0,0,0,0.35);
+        }
+
+
+        /* =========================================================
+           PRESS / TOUCH EFFECT
+           Only the actual button moves.
+           Background image remains completely stationary.
+        ========================================================= */
+
+        .contact-card:active {
+            transform: translateY(5px) scale(0.985);
+
+            filter: brightness(0.94);
+
+            box-shadow:
+                0 4px 7px rgba(0,0,0,0.28),
+                0 2px 3px rgba(0,0,0,0.18),
+                inset 0 4px 8px rgba(0,0,0,0.20),
+                inset 0 -1px 2px rgba(255,255,255,0.18);
+        }
+
+
+        /* =========================================================
+           SMALL FOOTER BRAND
+        ========================================================= */
+
+        .footer {
+            position: absolute;
+
+            bottom: max(5px, env(safe-area-inset-bottom));
+
+            left: 50%;
+
+            transform: translateX(-50%);
+
+            z-index: 5;
+
+            color: rgba(20,20,20,0.58);
+
+            font-size: 11px;
+
+            white-space: nowrap;
+
+            pointer-events: none;
+        }
+
+
+        /* =========================================================
+           SMALL MOBILE DEVICES
+        ========================================================= */
+
+        @media (max-height: 700px) {
+
+            .brand {
+                top: max(12px, env(safe-area-inset-top));
+            }
+
+            .instruction {
+                top: 11%;
+                font-size: 18px;
+            }
+
+            .contact-area {
+                top: 29%;
+            }
+
+            .contact-card {
+                height: 64px;
+            }
+
+            .service-name {
+                font-size: 19px;
+            }
+
+            .service-action {
+                font-size: 12px;
+            }
+        }
+
+
+        /* =========================================================
+           VERY NARROW PHONES
+        ========================================================= */
+
+        @media (max-width: 340px) {
+
+            .contact-area {
+                padding-left: 6%;
+                padding-right: 6%;
+            }
+
+            .contact-card {
+                width: 41vw;
+                min-width: 0;
+                height: 64px;
+            }
+
+            .instruction {
+                width: 96%;
+                font-size: 17px;
+            }
+
+            .service-name {
+                font-size: 18px;
+            }
+
+            .service-action {
+                font-size: 11px;
+            }
+        }
+
+
+        /* =========================================================
+           LANDSCAPE SAFETY
+           Portrait remains the intended design.
+        ========================================================= */
+
+        @media (orientation: landscape) {
+
+            .instruction {
+                top: 8%;
+                font-size: 20px;
+            }
+
+            .contact-area {
+                top: 25%;
+            }
+
+            .contact-card {
+                height: 65px;
+            }
+        }
+    </style>
+</head>
+
+
+<body>
+
+    <main class="page">
+
+        <!-- Brand -->
+        <div class="brand">
+            Rosha Support
+        </div>
+
+
+        <!-- Main instruction -->
+        <div class="instruction">
+            برای ارتباط مستقیم یکی را انتخاب کنید
+        </div>
+
+
+        <!-- =====================================================
+             CONTACT BUTTONS
+
+             NOTE:
+             In the background image:
+             - LEFT DOOR = Eitaa
+             - RIGHT DOOR = WhatsApp
+
+             Therefore:
+             Eitaa button is on the LEFT.
+             WhatsApp button is on the RIGHT.
+        ====================================================== -->
+
+        <section class="contact-area" aria-label="انتخاب پیام‌رسان">
+
+            <!-- EITAA -->
+            <a
+                id="eitaaButton"
+                class="contact-card eitaa"
+                href="#"
+                aria-label="شروع گفتگو در ایتا"
+                rel="noopener"
+            >
+                <span class="service-name">ایتا</span>
+                <span class="service-action">شروع گفتگو</span>
+            </a>
+
+
+            <!-- WHATSAPP -->
+            <a
+                id="whatsappButton"
+                class="contact-card whatsapp"
+                href="#"
+                aria-label="شروع گفتگو در واتساپ"
+                rel="noopener"
+            >
+                <span class="service-name">واتساپ</span>
+                <span class="service-action">شروع گفتگو</span>
+            </a>
+
+        </section>
+
+
+        <!-- Small brand signature -->
+        <div class="footer">
+            Rosha Support
+        </div>
+
+    </main>
+
+
+    <script>
+
+        /* =========================================================
+           =========================================================
+           ROSHA SUPPORT
+           EASY-TO-EDIT CONTACT SETTINGS
+           
+           فقط اطلاعات داخل این بخش را در آینده تغییر بده.
+           برای تغییر شماره واتساپ، فقط مقدار whatsappNumber را
+           تغییر بده.
+
+           برای تغییر آیدی ایتا، فقط مقدار eitaaUsername را
+           تغییر بده.
+           =========================================================
+           ========================================================= */
+
+        const CONTACT_SETTINGS = {
+
+            /* =========================
+               WHATSAPP
+               فقط شماره را تغییر بده.
+               بدون + و بدون فاصله.
+               مثال:
+               989301234567
+            ========================= */
+
+            whatsappNumber: "989304047332",
+
+            /*
+             * پیام آماده واتساپ
+             * اگر خواستی متنش را تغییر بده، همینجا تغییر بده.
+             */
+
+            whatsappMessage:
+                "سلام، برای ارتباط با Rosha Support پیام دادم.",
+
+
+            /* =========================
+               EITAA
+               فقط Username را تغییر بده.
+               بدون @
+            ========================= */
+
+            eitaaUsername: "RoshaSupportt"
+
+        };
+
+
+        /* =========================================================
+           CREATE WHATSAPP LINK
+        ========================================================= */
+
+        const whatsappButton =
+            document.getElementById("whatsappButton");
+
+        const whatsappText =
+            encodeURIComponent(
+                CONTACT_SETTINGS.whatsappMessage
+            );
+
+        whatsappButton.href =
+            "https://wa.me/" +
+            CONTACT_SETTINGS.whatsappNumber +
+            "?text=" +
+            whatsappText;
+
+
+        /* =========================================================
+           CREATE EITAA LINK
+        ========================================================= */
+
+        const eitaaButton =
+            document.getElementById("eitaaButton");
+
+        eitaaButton.href =
+            "https://eitaa.com/" +
+            CONTACT_SETTINGS.eitaaUsername;
+
+
+        /* =========================================================
+           SUBTLE PREMIUM TOUCH SOUND
+           
+           No external audio file.
+           Everything is generated locally with Web Audio API.
+        ========================================================= */
+
+        let audioContext = null;
+
+
+        function playTouchSound() {
+
+            try {
+
+                if (!audioContext) {
+
+                    const AudioContext =
+                        window.AudioContext ||
+                        window.webkitAudioContext;
+
+                    if (!AudioContext) {
+                        return;
+                    }
+
+                    audioContext =
+                        new AudioContext();
+                }
+
+
+                if (
+                    audioContext.state ===
+                    "suspended"
+                ) {
+                    audioContext.resume();
+                }
+
+
+                const now =
+                    audioContext.currentTime;
+
+
+                /*
+                 * Very short premium UI click.
+                 */
+
+                const oscillator =
+                    audioContext.createOscillator();
+
+                const gain =
+                    audioContext.createGain();
+
+
+                oscillator.type = "sine";
+
+                oscillator.frequency.setValueAtTime(
+                    720,
+                    now
+                );
+
+                oscillator.frequency.exponentialRampToValueAtTime(
+                    480,
+                    now + 0.055
+                );
+
+
+                gain.gain.setValueAtTime(
+                    0.0001,
+                    now
+                );
+
+                gain.gain.exponentialRampToValueAtTime(
+                    0.085,
+                    now + 0.006
+                );
+
+                gain.gain.exponentialRampToValueAtTime(
+                    0.0001,
+                    now + 0.075
+                );
+
+
+                oscillator.connect(gain);
+
+                gain.connect(
+                    audioContext.destination
+                );
+
+
+                oscillator.start(now);
+
+                oscillator.stop(
+                    now + 0.08
+                );
+
+            } catch (error) {
+
+                /*
+                 * If the browser blocks audio,
+                 * the link must continue working normally.
+                 */
+
+            }
+        }
+
+
+        /* =========================================================
+           PLAY SOUND WHEN USER TOUCHES A CONTACT BUTTON
+        ========================================================= */
+
+        document
+            .querySelectorAll(".contact-card")
+            .forEach(function(button) {
+
+                button.addEventListener(
+                    "pointerdown",
+                    function() {
+                        playTouchSound();
+                    },
+                    {
+                        passive: true
+                    }
+                );
+
+            });
+
+
+        /* =========================================================
+           PREVENT ACCIDENTAL DOUBLE-TAP ZOOM / GESTURE ISSUES
+        ========================================================= */
+
+        document.addEventListener(
+            "gesturestart",
+            function(event) {
+                event.preventDefault();
+            }
+        );
+
+    </script>
+
+</body>
+  </html>
